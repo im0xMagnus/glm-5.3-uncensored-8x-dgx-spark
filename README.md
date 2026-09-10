@@ -72,4 +72,17 @@ See *Before you run* for the placeholders to replace.
 
 ## Credits
 
-dealignai for the uncensored builds; ciprianveg (gb10-vllm) and the b12x kernel authors for the SM121 stack; Light Foundry, Tech2wild, local-inference-lab and the rest of the GB10 crowd whose recipes this leaned on.
+This repo stands on other people's work. In rough order of how much of it is in here:
+
+- **dealignai** ([huggingface.co/dealignai](https://huggingface.co/dealignai)) -- the uncensored FP8 and NVFP4 GLM-5.3 builds, and the fast, generous response to the field report.
+- **ciprianveg** ([@ciprianveg](https://github.com/ciprianveg), [gb10-vllm](https://github.com/ciprianveg/gb10-vllm)) -- the `gb10-glm-5.2:v19-vision` image and recipes every launcher here descends from, plus the Kimi K3 recipes that told us PP2 and DCP were the 1M routes to test.
+- **the b12x stack** ([@wrldsuksgo2mars on X](https://x.com/wrldsuksgo2mars)) -- the `B12X_MLA_SPARSE` kernels that make DSA/MLA run on SM121 at all; the image is a build of that fork.
+- **Mia's AI Lab** ([@MiaAI-Lab](https://github.com/MiaAI-Lab), [huggingface.co/Mia-AiLab](https://huggingface.co/Mia-AiLab), [@MiaAI_lab on X](https://x.com/MiaAI_lab)) -- the `nvidia-smi -lgc 0,2200` clock-lock finding that `ops/set_clocks.sh` and `gb10-clocklock.service` implement (32-38% less cluster power, decode unchanged), and the GLM-5.3-Flash EXL3 two-Spark recipe this cluster ran before vLLM, which is still the reference for EXL3 on GB10.
+- **Light Foundry** ([@light_foundry on X](https://x.com/light_foundry)) -- the native sm_121 work inherited through v19, and the public TP8 numbers (nvfp4 KV at plain TP8, DFlash2 k7) that reopened our Path A.
+- **Tech2wild / Tony** ([huggingface.co/Tech2wild](https://huggingface.co/Tech2wild), [@Tech2Wild on X](https://x.com/Tech2Wild)) -- the GLM-5.3 Int4-Int8Mix quant and the TP4 recipe lineage.
+- **local-inference-lab** ([huggingface.co/local-inference-lab](https://huggingface.co/local-inference-lab), [vllm fork](https://github.com/local-inference-lab/vllm)) -- the DCP1 query-split prefill gain (their PR #175) baked into v19.
+- **eugr** ([@eugr](https://github.com/eugr)) -- the spark-vllm-docker harness and the tuned Kimi K3 serving configs the gb10-vllm recipes sync to.
+- **CosmicRaisins** ([glm-5.2-gb10](https://github.com/CosmicRaisins/glm-5.2-gb10)) and **QuantTrio** ([huggingface.co/QuantTrio](https://huggingface.co/QuantTrio)) -- upstream GLM-5.2 GB10 work and quants that v19 inherits.
+- **Inco AI / Z Lab** ([huggingface.co/incoai](https://huggingface.co/incoai), [z-lab/dflash](https://github.com/z-lab/dflash)) -- DFlash 2 and the public GLM-5.3 draft; not used in these launchers yet (our image predates DFlash 2), referenced in the report.
+
+If you are on this list and want a different name, handle or link, open an issue and it will be changed.
