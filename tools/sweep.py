@@ -15,9 +15,9 @@ Usage:
     python3 sweep.py --run --hours 8   # execute until the budget is spent
 """
 import argparse, json, os, random, subprocess, sys, time, datetime
-# sudo password: from ~/.config/prism/env (SPARK_SUDO_PASS), never inline
+# sudo password: from ~/.config/spark-ops/env (SPARK_SUDO_PASS), never inline
 os.environ.setdefault("SPARK_SUDO_PASS", "")
-for _l in open(os.path.expanduser("~/.config/prism/env")) if os.path.exists(os.path.expanduser("~/.config/prism/env")) else []:
+for _l in open(os.path.expanduser("~/.config/spark-ops/env")) if os.path.exists(os.path.expanduser("~/.config/spark-ops/env")) else []:
     if _l.startswith("SPARK_SUDO_PASS="): os.environ["SPARK_SUDO_PASS"]=_l.split("=",1)[1].strip().strip('"\'')
 
 
