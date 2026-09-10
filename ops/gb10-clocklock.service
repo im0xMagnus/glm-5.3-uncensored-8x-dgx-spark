@@ -1,0 +1,17 @@
+[Unit]
+Description=GB10 GPU clock cap (power/thermal lever; -pl is unavailable on GB10)
+After=nvidia-persistenced.service
+Wants=nvidia-persistenced.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# 2200 requested -> driver snaps to the 2190 MHz bin.
+# Measured on this 8-node cluster: -32..38% cluster power, decode cost within
+# noise (2.8% spread across 2400/2200/2000 MHz). Undo: systemctl disable --now
+# gb10-clocklock && sudo nvidia-smi -rgc
+ExecStart=/usr/bin/nvidia-smi -lgc 0,2200
+ExecStop=/usr/bin/nvidia-smi -rgc
+
+[Install]
+WantedBy=multi-user.target
