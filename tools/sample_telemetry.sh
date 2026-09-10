@@ -5,7 +5,7 @@ OUT="${1:-/tmp/telemetry.csv}"
 : > "$OUT"
 while :; do
   for ip in 10 11 12 13 14 15 16 17; do
-    ( v=$(ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=6 $USER@10.100.128.$ip \
+    ( v=$(ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=6 $USER@<NODE_PREFIX>.$ip \
         "nvidia-smi --query-gpu=clocks.gr,power.draw,temperature.gpu,clocks_event_reasons.hw_thermal_slowdown,clocks_event_reasons.sw_power_cap --format=csv,noheader,nounits" 2>/dev/null)
       [ -n "$v" ] && echo "$(date +%s),$ip,$v" >> "$OUT" ) &
   done

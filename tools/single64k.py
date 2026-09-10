@@ -1,5 +1,5 @@
 import json, time, urllib.request, random, string, sys
-URL="http://10.100.128.10:8888/v1/chat/completions"
+URL="http://<NODE_PREFIX>.10:8888/v1/chat/completions"
 uniq="".join(random.choices(string.ascii_lowercase,k=8)); code=734519
 f=[f"{uniq}{i} the quick brown fox jumps over the lazy dog" for i in range(64000//11)]
 f.insert(len(f)//2, f"IMPORTANT: the secret access code is {code}. Remember it.")

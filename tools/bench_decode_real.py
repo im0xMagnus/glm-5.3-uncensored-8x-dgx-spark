@@ -5,7 +5,7 @@ a spread of realistic workloads instead, and report each separately.
 """
 import json, time, urllib.request, statistics, sys
 
-URL = "http://10.100.128.10:8888/v1/chat/completions"
+URL = "http://<NODE_PREFIX>.10:8888/v1/chat/completions"
 MODEL = "glm-5.3-uncensored"
 
 PROMPTS = {

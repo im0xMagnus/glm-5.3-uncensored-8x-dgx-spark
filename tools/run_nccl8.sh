@@ -1,5 +1,5 @@
 #!/bin/bash
-# 8-node NCCL all-reduce over RoCE. Rank 0 = spark-00 @ 10.100.128.10
+# 8-node NCCL all-reduce over RoCE. Rank 0 = <head-host> @ <NODE_PREFIX>.10
 IMG="mia/glm53-flash-spark:mm-ray-v1"
 LOGDIR="$(cd "$(dirname "$0")" && pwd)/nccl-logs8"
 mkdir -p "$LOGDIR"; rm -f "$LOGDIR"/*.log
@@ -9,7 +9,7 @@ cat <<EOF
 docker run --rm --network host --gpus all --ipc=host \
   --device=/dev/infiniband --cap-add=IPC_LOCK --ulimit memlock=-1:-1 \
   -v /tmp/nccl_allreduce.py:/tmp/nccl_allreduce.py \
-  -e MASTER_ADDR=10.100.128.10 -e MASTER_PORT=29500 \
+  -e MASTER_ADDR=<NODE_PREFIX>.10 -e MASTER_PORT=29500 \
   -e RANK=$1 -e WORLD_SIZE=8 \
   -e NCCL_IB_HCA=rocep1s0f0,roceP2p1s0f0 \
   -e NCCL_IB_GID_INDEX=3 \
@@ -34,7 +34,7 @@ for n in 1 2 3 4 5 6 7; do
 done
 sleep 5
 echo "  launching rank 0..."
-ssh -o ConnectTimeout=10 -o BatchMode=yes spark-00 "$(DC 0)" > "$LOGDIR/rank0.log" 2>&1
+ssh -o ConnectTimeout=10 -o BatchMode=yes <head-host> "$(DC 0)" > "$LOGDIR/rank0.log" 2>&1
 echo "  rank0 exit=$?"
 wait
 echo "  all ranks returned"

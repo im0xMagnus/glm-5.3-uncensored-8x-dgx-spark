@@ -4,7 +4,7 @@
 Plain-text output, no unicode."""
 import json, time, urllib.request, urllib.error, sys
 
-BASE = "http://10.100.128.10:8888"
+BASE = "http://<NODE_PREFIX>.10:8888"
 MODEL = "glm-5.3-uncensored"
 TARGET_TOKENS = int(sys.argv[1]) if len(sys.argv) > 1 else 560_000
 NEEDLE = "The access code is KESTREL-7731."

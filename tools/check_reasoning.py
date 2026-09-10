@@ -8,7 +8,7 @@ swallowed and DSH's reasoningEfforts map is decorative.
 """
 import json, urllib.request
 
-URL = "http://10.100.128.10:8888/v1/chat/completions"
+URL = "http://<NODE_PREFIX>.10:8888/v1/chat/completions"
 MODEL = "glm-5.3-uncensored"
 Q = "A farmer has 17 sheep. All but 9 run away. How many are left? Think it through."
 

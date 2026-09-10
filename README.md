@@ -4,6 +4,20 @@ Launchers, measurement scripts and ops helpers behind the field report
 [dealignai/GLM-5.3-UNCENSORED-FP8, discussion #3](https://huggingface.co/dealignai/GLM-5.3-UNCENSORED-FP8/discussions/3).
 Everything here was run on real hardware; numbers quoted are measurements, with the prompt and run count stated.
 
+## Before you run
+
+Scripts are published with **loud placeholders** instead of our network identity. Search and replace before use:
+
+| placeholder | meaning |
+|---|---|
+| `<HEAD_IP>` | fabric IP of the head node (rank 0, serves the API on :8888) |
+| `<NODE_PREFIX>.N` | fabric subnet prefix; nodes are addressed as prefix + last octet |
+| `<HEAD_LAN_IP>` | the head node's LAN address, where a script reaches it from outside the fabric |
+| `<head-host>`, `<worker-host>`, `<node-host-N>` | ssh aliases for the nodes |
+| `<user>` | the login user in the sudoers rule |
+
+Anything left unreplaced fails loudly (DNS or ssh error) rather than talking to the wrong machine. There are no credentials, tokens or private paths anywhere in this repository.
+
 ## Hardware and stack
 
 - 8x DGX Spark GB10, 121.69 GiB unified memory each, 2x200G RoCE fabric, one GPU per node
@@ -45,7 +59,7 @@ Measured envelope (single-stream unless stated, realistic coding prompts):
 4. **Benchmark prompts**: a "count to 300" prompt inflates MTP acceptance enormously (+140% versus +48% on real work). Prefill run-to-run variance on this cluster is ~34%; decode ~3%. Use repeated controls (A-B-C-A) before believing a prefill number.
 5. **`VLLM_FLASHINFER_AUTOTUNE_CACHE_DIR` is a no-op at TP>1** on this build: `kernel_warmup.py::flashinfer_autotune` disables the persistent cache when world size > 1, so every boot re-tunes (~5 min) and the KV pool varies by a few GiB between identical boots.
 6. **Never run a bulk download on a serving rank.** Twice it starved sshd and killed the TP job. Pull weights while nothing is serving.
-7. **`sudo -n` can lie.** A cached ticket makes a "passwordless" test pass while cron gets denied. Test with `sudo -k` first. The scoped NOPASSWD rule in `ops/prism-spark-ops.sudoers` covers exactly the page-cache drop and `nvidia-smi`.
+7. **`sudo -n` can lie.** A cached ticket makes a "passwordless" test pass while cron gets denied. Test with `sudo -k` first. The scoped NOPASSWD rule in `ops/spark-ops.sudoers` covers exactly the page-cache drop and `nvidia-smi`.
 8. **zsh does not word-split unquoted variables** (`S="ssh ..."; $S host cmd` is one "command not found"), and `pkill -f <pattern>` from an ssh string that contains the pattern kills your own shell. Ship a script file and kill by PID.
 
 ## What is in here
@@ -54,7 +68,7 @@ Measured envelope (single-stream unless stated, realistic coding prompts):
 - `tools/` -- measurement: `bench_decode_real.py` (single-stream decode on realistic prompts), `bench_concurrency.py`, `bench_clocks.py` (clock-lock A-B-C-A), `test_repetition.py` and `diag_rep_at_*.py` (long-generation repetition harness), `test_max_effort.py` and `diag_effort.py` (reasoning-effort at a fixed budget), `check_reasoning.py` and `diag_raw.py` (which field the reasoning lands in, raw completions), `single64k.py`, `test_longctx.py`, `test_depth_coherence.py`, `probe_1m.py` (needle at depth), `sweep.py` (overnight recipe sweep), `nccl_allreduce.py` and `run_nccl8.sh` (fabric sanity), `run_graphs_suite.sh`, `run_condition.sh`, `nvfp4_suite.sh`, `sample_telemetry.sh`, `gid_probe.sh`.
 - `ops/` -- page-cache flushers (boot-time and persistent cron), the sudoers rule and installer, GB10 clock lock (`set_clocks.sh`, `gb10-clocklock.service`; `-lgc 0,2200` cuts cluster power 32-38% with decode unchanged), and `lib.sh`.
 
-Scripts point at the head node by IP (`10.100.128.10`) and use `$USER@<node>` for ssh; edit those for your fabric. There are no credentials anywhere in this repository.
+Scripts point at the head node by IP (`<NODE_PREFIX>.10`) and use `$USER@<node>` for ssh; edit those for your fabric. There are no credentials anywhere in this repository.
 
 ## Credits
 

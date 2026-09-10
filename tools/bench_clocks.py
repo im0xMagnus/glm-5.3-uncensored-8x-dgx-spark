@@ -9,7 +9,7 @@ Unique filler per prefill run so prefix caching cannot flatter the number.
 """
 import json, time, urllib.request, random, string, sys, statistics
 
-URL   = "http://10.100.128.10:8888/v1/chat/completions"
+URL   = "http://<NODE_PREFIX>.10:8888/v1/chat/completions"
 MODEL = "glm-5.3-uncensored"
 LABEL = sys.argv[1] if len(sys.argv) > 1 else "run"
 REPS  = int(sys.argv[2]) if len(sys.argv) > 2 else 3

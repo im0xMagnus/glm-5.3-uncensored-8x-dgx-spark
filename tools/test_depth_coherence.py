@@ -12,7 +12,7 @@ Scores per turn:
 """
 import json, re, time, urllib.request
 
-URL = "http://10.100.128.10:8888/v1/chat/completions"
+URL = "http://<NODE_PREFIX>.10:8888/v1/chat/completions"
 MODEL = "glm-5.3-uncensored"
 
 FILLER = ("Consider the following technical background material. "

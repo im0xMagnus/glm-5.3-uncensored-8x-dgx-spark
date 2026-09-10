@@ -1,6 +1,6 @@
 #!/bin/bash
 # Persistent low-rate page-cache flusher for the GB10 nodes: cron runs it every 5 minutes.
-# Same tee idiom as boot-flush.sh -- matches /etc/sudoers.d/prism-spark-ops (no password, no sh -c).
+# Same tee idiom as boot-flush.sh -- matches /etc/sudoers.d/spark-ops (no password, no sh -c).
 # It never touches GPU / KV memory; it only stops host headroom eroding into page cache and keeps
 # `free` honest. Log: /var/tmp/persistent-flush.log (self-trimmed). Exit 1 = the drop did not happen.
 LOG=/var/tmp/persistent-flush.log

@@ -1,4 +1,4 @@
-# Prism Spark cluster ops: page-cache drop and GPU clock lock, no password.
+# the harness Spark cluster ops: page-cache drop and GPU clock lock, no password.
 # Installed by the cutover tooling; validated with visudo -cf before install.
 <user> ALL=(root) NOPASSWD: /usr/bin/tee /proc/sys/vm/drop_caches
 <user> ALL=(root) NOPASSWD: /usr/bin/nvidia-smi

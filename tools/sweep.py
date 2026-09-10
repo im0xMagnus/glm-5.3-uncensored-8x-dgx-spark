@@ -23,7 +23,7 @@ for _l in open(os.path.expanduser("~/.config/prism/env")) if os.path.exists(os.p
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 IPS = [10, 11, 12, 13, 14, 15, 16, 17]
-HEAD = "10.100.128.10"
+HEAD = "<NODE_PREFIX>.10"
 RESULTS = os.path.join(HERE, "sweep-results.jsonl")
 
 # The config we KNOW works and that the cluster is left on. Also the control.
@@ -72,7 +72,7 @@ def sh(cmd, timeout=300):
 
 
 def ssh(ip, cmd, timeout=120):
-    return sh(f"ssh -o BatchMode=yes -o ConnectTimeout=10 $USER@10.100.128.{ip} "
+    return sh(f"ssh -o BatchMode=yes -o ConnectTimeout=10 $USER@<NODE_PREFIX>.{ip} "
               f"{json.dumps(cmd)}", timeout=timeout)
 
 

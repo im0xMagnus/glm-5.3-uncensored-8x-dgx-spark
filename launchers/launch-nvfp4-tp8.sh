@@ -24,13 +24,13 @@ NAME="vllm_nvfp4_tp8"
 MODEL_HOST=/data/models/GLM-5.3-UNCENSORED-NVFP4      # local copy on every node
 MODEL_PATH=/models/glm-5.3-nvfp4
 CACHE_HOST=/var/tmp/nvfp4-vllm-cache
-HEAD_IP=10.100.128.10
+HEAD_IP=<NODE_PREFIX>.10
 MPORT=29531
 PORT=8888
 
-# rank -> fabric IP  (.12 is spark-02, kept in-cluster as rank 2)
-FAB=(10.100.128.10 10.100.128.11 10.100.128.12 10.100.128.13 \
-     10.100.128.14 10.100.128.15 10.100.128.16 10.100.128.17)
+# rank -> fabric IP  (.12 is <node-host-2>, kept in-cluster as rank 2)
+FAB=(<NODE_PREFIX>.10 <NODE_PREFIX>.11 <NODE_PREFIX>.12 <NODE_PREFIX>.13 \
+     <NODE_PREFIX>.14 <NODE_PREFIX>.15 <NODE_PREFIX>.16 <NODE_PREFIX>.17)
 HOST_IP="${FAB[$NODE_RANK]}"
 [ "$NODE_RANK" = "0" ] && HEADLESS="" || HEADLESS="--headless"
 
@@ -84,7 +84,7 @@ docker run --gpus all -d --name "$NAME" --restart no \
   -e NCCL_NET=IB -e NCCL_IB_DISABLE=0 \
   -e NCCL_IB_HCA=rocep1s0f0,roceP2p1s0f0 -e NCCL_IB_GID_INDEX=$GIDX \
   -e NCCL_IB_ROCE_VERSION_NUM=2 -e NCCL_IB_ADDR_FAMILY=AF_INET \
-  -e NCCL_IB_ADDR_RANGE=10.100.128.0/24 \
+  -e NCCL_IB_ADDR_RANGE=<NODE_PREFIX>.0/24 \
   -e NCCL_SOCKET_IFNAME=enp1s0f0np0 -e GLOO_SOCKET_IFNAME=enp1s0f0np0 \
   -e TP_SOCKET_IFNAME=enp1s0f0np0 -e MN_IF_NAME=enp1s0f0np0 \
   -e NCCL_CROSS_NIC=1 -e NCCL_NVLS_ENABLE=0 -e NCCL_CUMEM_ENABLE=0 \
