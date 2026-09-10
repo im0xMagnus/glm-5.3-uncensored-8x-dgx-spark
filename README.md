@@ -13,7 +13,7 @@ Scripts are published with **loud placeholders** instead of our network identity
 | `HEAD_IP_PLACEHOLDER` | fabric IP of the head node (rank 0, serves the API on :8888) |
 | `NODE_PREFIX_PLACEHOLDER.N` | fabric subnet prefix; nodes are addressed as prefix + last octet |
 | `HEAD_LAN_IP_PLACEHOLDER` | the head node's LAN address, where a script reaches it from outside the fabric |
-| `HEAD_HOST_PLACEHOLDER`, `WORKER_HOST_PLACEHOLDER`, `<node-host-N>` | ssh aliases for the nodes |
+| `HEAD_HOST_PLACEHOLDER`, `WORKER_HOST_PLACEHOLDER`, `NODE_HOST_N_PLACEHOLDER` | ssh aliases for the nodes |
 | `USER_PLACEHOLDER` | the login user in the sudoers rule |
 
 Anything left unreplaced fails loudly (DNS or ssh error) rather than talking to the wrong machine. There are no credentials, tokens or private paths anywhere in this repository.
