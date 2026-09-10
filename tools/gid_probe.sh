@@ -3,7 +3,7 @@
 # The usable index is the one whose GID encodes THIS node's own fabric IP
 # AND whose type is "RoCE v2" (not IB/RoCE v1). Never assume - firmware renumbers it.
 
-ip_to_gid_suffix() {  # <NODE_PREFIX>.10 -> 0a64:800a
+ip_to_gid_suffix() {  # NODE_PREFIX_PLACEHOLDER.10 -> 0a64:800a
   IFS=. read -r a b c d <<< "$1"
   printf "%02x%02x:%02x%02x" "$a" "$b" "$c" "$d"
 }

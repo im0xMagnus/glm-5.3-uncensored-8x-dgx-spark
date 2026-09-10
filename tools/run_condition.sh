@@ -14,13 +14,13 @@ sleep 5
 echo "### condition=$LABEL requested=$CLK"
 printf '  actual clocks: '
 for ip in 10 11 12 13 14 15 16 17; do
-  printf '%s ' "$(ssh -o BatchMode=yes -o ConnectTimeout=8 $USER@<NODE_PREFIX>.$ip \
+  printf '%s ' "$(ssh -o BatchMode=yes -o ConnectTimeout=8 $USER@NODE_PREFIX_PLACEHOLDER.$ip \
     'nvidia-smi --query-gpu=clocks.gr --format=csv,noheader,nounits' 2>/dev/null)"
 done; echo
 
 # one persistent ssh per node, sampling for up to 8 min
 for ip in 10 11 12 13 14 15 16 17; do
-  ssh -o BatchMode=yes -o ConnectTimeout=8 $USER@<NODE_PREFIX>.$ip \
+  ssh -o BatchMode=yes -o ConnectTimeout=8 $USER@NODE_PREFIX_PLACEHOLDER.$ip \
     "for i in \$(seq 1 160); do nvidia-smi --query-gpu=clocks.gr,power.draw,temperature.gpu --format=csv,noheader,nounits; sleep 3; done" \
     > $D/telem-$LABEL-$ip.csv 2>/dev/null &
 done

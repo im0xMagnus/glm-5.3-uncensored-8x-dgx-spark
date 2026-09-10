@@ -14,7 +14,7 @@ depth, with a needle so we can also see whether retrieval survives.
 """
 import json, time, urllib.request, urllib.error, random, string
 
-URL = "http://<NODE_PREFIX>.10:8888/v1/chat/completions"
+URL = "http://NODE_PREFIX_PLACEHOLDER.10:8888/v1/chat/completions"
 MODEL = "glm-5.3-uncensored"
 
 def build(approx_tokens, needle_frac=0.5):

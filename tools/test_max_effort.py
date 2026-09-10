@@ -6,7 +6,7 @@ so the numbers are comparable.  Order: max (the question), high, low (controls).
 Each run waits for an idle engine.  Plain-text output, no unicode."""
 import json, re, time, urllib.request
 
-BASE = "http://<NODE_PREFIX>.10:8888"
+BASE = "http://NODE_PREFIX_PLACEHOLDER.10:8888"
 URL = BASE + "/v1/chat/completions"
 MT = 16384  # DSH maxTokens
 P = ("Write an exhaustive technical deep-dive on memory-mapped hardware register "

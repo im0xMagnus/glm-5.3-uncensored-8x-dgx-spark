@@ -11,7 +11,7 @@ of unique to total whitespace tokens. Degenerate output scores near-zero unique.
 """
 import json, re, time, urllib.request
 
-URL = "http://<NODE_PREFIX>.10:8888/v1/chat/completions"
+URL = "http://NODE_PREFIX_PLACEHOLDER.10:8888/v1/chat/completions"
 MODEL = "glm-5.3-uncensored"
 
 PROMPTS = [

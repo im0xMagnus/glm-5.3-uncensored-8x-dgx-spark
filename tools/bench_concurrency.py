@@ -12,7 +12,7 @@ flatter the result.
 import json, time, urllib.request, statistics, sys
 from concurrent.futures import ThreadPoolExecutor
 
-URL = "http://<NODE_PREFIX>.10:8888/v1/chat/completions"
+URL = "http://NODE_PREFIX_PLACEHOLDER.10:8888/v1/chat/completions"
 MODEL = "glm-5.3-uncensored"
 MAXTOK = 500
 

@@ -10,11 +10,11 @@ Scripts are published with **loud placeholders** instead of our network identity
 
 | placeholder | meaning |
 |---|---|
-| `<HEAD_IP>` | fabric IP of the head node (rank 0, serves the API on :8888) |
-| `<NODE_PREFIX>.N` | fabric subnet prefix; nodes are addressed as prefix + last octet |
-| `<HEAD_LAN_IP>` | the head node's LAN address, where a script reaches it from outside the fabric |
-| `<head-host>`, `<worker-host>`, `<node-host-N>` | ssh aliases for the nodes |
-| `<user>` | the login user in the sudoers rule |
+| `HEAD_IP_PLACEHOLDER` | fabric IP of the head node (rank 0, serves the API on :8888) |
+| `NODE_PREFIX_PLACEHOLDER.N` | fabric subnet prefix; nodes are addressed as prefix + last octet |
+| `HEAD_LAN_IP_PLACEHOLDER` | the head node's LAN address, where a script reaches it from outside the fabric |
+| `HEAD_HOST_PLACEHOLDER`, `WORKER_HOST_PLACEHOLDER`, `<node-host-N>` | ssh aliases for the nodes |
+| `USER_PLACEHOLDER` | the login user in the sudoers rule |
 
 Anything left unreplaced fails loudly (DNS or ssh error) rather than talking to the wrong machine. There are no credentials, tokens or private paths anywhere in this repository.
 
@@ -68,7 +68,7 @@ Measured envelope (single-stream unless stated, realistic coding prompts):
 - `tools/` -- measurement: `bench_decode_real.py` (single-stream decode on realistic prompts), `bench_concurrency.py`, `bench_clocks.py` (clock-lock A-B-C-A), `test_repetition.py` and `diag_rep_at_*.py` (long-generation repetition harness), `test_max_effort.py` and `diag_effort.py` (reasoning-effort at a fixed budget), `check_reasoning.py` and `diag_raw.py` (which field the reasoning lands in, raw completions), `single64k.py`, `test_longctx.py`, `test_depth_coherence.py`, `probe_1m.py` (needle at depth), `sweep.py` (overnight recipe sweep), `nccl_allreduce.py` and `run_nccl8.sh` (fabric sanity), `run_graphs_suite.sh`, `run_condition.sh`, `nvfp4_suite.sh`, `sample_telemetry.sh`, `gid_probe.sh`.
 - `ops/` -- page-cache flushers (boot-time and persistent cron), the sudoers rule and installer, GB10 clock lock (`set_clocks.sh`, `gb10-clocklock.service`; `-lgc 0,2200` cuts cluster power 32-38% with decode unchanged), and `lib.sh`.
 
-Scripts point at the head node by IP (`<NODE_PREFIX>.10`) and use `$USER@<node>` for ssh; edit those for your fabric. There are no credentials anywhere in this repository.
+See *Before you run* for the placeholders to replace.
 
 ## Credits
 

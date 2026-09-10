@@ -1,5 +1,5 @@
 import json, re, urllib.request
-URL="http://<NODE_PREFIX>.10:8888/v1/chat/completions"
+URL="http://NODE_PREFIX_PLACEHOLDER.10:8888/v1/chat/completions"
 P=("Write an exhaustive technical deep-dive on memory-mapped hardware register "
    "interfaces: address decoding, side-effect-on-read registers, and debugging a "
    "register that returns shifting values across reads. Be extremely thorough.")

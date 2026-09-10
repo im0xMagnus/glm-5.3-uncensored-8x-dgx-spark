@@ -9,18 +9,18 @@ cd "$(dirname "$0")"
 OUT=/tmp/graphs-suite.txt
 : > "$OUT"
 log(){ echo "$(date +%H:%M:%S) $*" | tee -a "$OUT"; }
-M="http://<NODE_PREFIX>.10:8888/metrics"
+M="http://NODE_PREFIX_PLACEHOLDER.10:8888/metrics"
 running(){ curl -sf -m 8 "$M" 2>/dev/null | grep -E '^vllm:num_requests_running' | grep -oE '[0-9.]+$'; }
 
 log "=== 0. wait for boot ==="
 for i in $(seq 1 200); do
-  o=$(ssh -o BatchMode=yes -o ConnectTimeout=10 <head-host> 'docker logs vllm_fp8_tp8 2>&1 | grep -aE "Available KV cache memory|GPU KV cache size|Maximum concurrency|Application startup complete|ValueError|OutOfMemoryError|EngineCore failed" | tail -5' 2>/dev/null)
+  o=$(ssh -o BatchMode=yes -o ConnectTimeout=10 HEAD_HOST_PLACEHOLDER 'docker logs vllm_fp8_tp8 2>&1 | grep -aE "Available KV cache memory|GPU KV cache size|Maximum concurrency|Application startup complete|ValueError|OutOfMemoryError|EngineCore failed" | tail -5' 2>/dev/null)
   if echo "$o" | grep -q "Application startup complete"; then echo "$o" | cut -c1-200 | tee -a "$OUT"; break; fi
   if echo "$o" | grep -qE "ValueError|OutOfMemoryError|EngineCore failed"; then log "BOOT FAILED"; echo "$o" | tee -a "$OUT"; exit 1; fi
   sleep 15
 done
-curl -sf -m 10 http://<NODE_PREFIX>.10:8888/v1/models >/dev/null || { log "API not up after boot loop"; exit 1; }
-log "cudagraph capture in log: $(ssh -o BatchMode=yes <head-host> 'docker logs vllm_fp8_tp8 2>&1 | grep -aciE "cudagraph|capturing"' 2>/dev/null)"
+curl -sf -m 10 http://NODE_PREFIX_PLACEHOLDER.10:8888/v1/models >/dev/null || { log "API not up after boot loop"; exit 1; }
+log "cudagraph capture in log: $(ssh -o BatchMode=yes HEAD_HOST_PLACEHOLDER 'docker logs vllm_fp8_tp8 2>&1 | grep -aciE "cudagraph|capturing"' 2>/dev/null)"
 
 log "=== 1. decode bench (effort=low default, graphs on) ==="
 python3 -u bench_decode_real.py 2>&1 | tee -a "$OUT"
