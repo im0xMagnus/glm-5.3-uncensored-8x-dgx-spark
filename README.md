@@ -4,6 +4,16 @@ Launchers, measurement scripts and ops helpers behind the field report
 [dealignai/GLM-5.3-UNCENSORED-FP8, discussion #3](https://huggingface.co/dealignai/GLM-5.3-UNCENSORED-FP8/discussions/3).
 Everything here was run on real hardware; numbers quoted are measurements, with the prompt and run count stated.
 
+At a glance (NVFP4 TP8, 512K context, MTP k=1, the config that ran daily): 21.6 tok/s single stream with MTP on NVFP4,
+22.8 on FP8 (15.2-15.6 without MTP); 695K-token KV pool (35-36 GiB per rank) at gmu 0.80; reasoning `low` for agent and
+tool work (see the traps). The same cluster has since moved to DeepSeek-V4.1-Flash at 1M context; that recipe and its
+numbers are in [deepseek-v4.1-flash-uncensored-8x-dgx-spark](https://github.com/im0xMagnus/deepseek-v4.1-flash-uncensored-8x-dgx-spark).
+
+Author: [@0xmagnus on X](https://x.com/0xmagnus), [0xMagnus on Hugging Face](https://huggingface.co/0xMagnus). Running GLM-5.3
+on your own Sparks? Open an [issue](https://github.com/im0xMagnus/glm-5.3-uncensored-8x-dgx-spark/issues) or a
+[discussion](https://github.com/im0xMagnus/glm-5.3-uncensored-8x-dgx-spark/discussions) with your node count, image tag and
+decode numbers. Numbers are worth more side by side than alone.
+
 ## Before you run
 
 Scripts are published with **loud placeholders** instead of our network identity. Search and replace before use:
